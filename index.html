@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Comprehension</title>
+    <style>
+        /* Defaults */
+* {
+  box-sizing: border-box;
+}
+#container {
+  width: 100%;
+  margin: auto;
+}
+.controls>div>div {
+  width: 100%
+}
+@media only screen and (min-width: 1000px) {
+  #container {
+    width: 960px;
+  }
+  .controls>div>div {
+    display: table-cell;
+    width: 50%
+  }
+}
+h2 {
+  border-bottom: 1px solid black;
+  padding-left: 5px;
+}
+/* RCD Unique Elements */
+#demotext  {
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 0;
+  text-align:justify;  
+  text-justify:inter-word;
+}
+.fliph {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  display: inline-block;
+}
+a {
+  text-decoration: none;
+}
+/* Form Elements */
+.controls {
+  vertical-align: middle;
+}
+
+input[type="range"] {
+  vertical-align: middle; 
+}
+/* Quick Formats */
+.ib {
+  display: inline-block;
+}
+.bottom {
+  vertical-align: bottom;
+}
+.full {
+  width: 100%;
+}
+.hidden {
+  display: none;
+}
+/* CSS Display Table */
+.table    { display: table }
+.tr       { display: table-row }
+.thead    { display: table-header-group }
+.tbody    { display: table-row-group }
+.tfoot    { display: table-footer-group }
+.col      { display: table-column }
+.colgroup { display: table-column-group }
+.td, .th  { display: table-cell }
+.caption  { display: table-caption }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1><i class="fa fa-eye" aria-hidden="true"></i> Reading Comprehension Demonstrations</h1>
+        <h2>Purpose</h2>
+        <p>
+          This is a visual tool which aims to help developers, designers, educators, and decision makers to relate with the delays and confusion that can come with developmental mutidimensional-spectrum conditions such as dyslexia, and ADHD.  As every person's experience is different, it would be impossible for any single simulator to fully reproduce everyone's experiences.
+        </p>
+        <h2>Method</h2>
+        <p>
+          Shuffles letters in the middle of words while ignoring words of 3 or less letters, considering punctuation and considering contractions.  Provides a chance to flip individual letters in selected words.  Also provides a chance for letters to be replaced by similiar letters.
+        </p>
+        <h2>Demo</h2>
+        <div class="controls table full">
+          <div class="tr">
+            <div class="bottom">
+              <button id="btnScramble">
+                <i class="fa fa-random" aria-hidden="true"></i>&nbsp;Scramble</button>
+              <button id="btnReset">
+                <i class="fa fa-repeat" aria-hidden="true"></i>&nbsp;Reset</button>
+              <button id="btnStop">
+                <i class="fa fa-stop" aria-hidden="true"></i>&nbsp;Stop</button>
+              <button id="btnPlay" class="hidden">
+                <i class="fa fa-play" aria-hidden="true"></i>&nbsp;Play</button>
+              <button id="btnShowSettings">
+                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Show Settings</button>
+              <button id="btnHideSettings" class="hidden">
+                <i class="fa fa-eye-slash" aria-hidden="true"></i>&nbsp;Hide Settings</button>
+            </div>
+            <div>
+              <fieldset id="settings" class="hidden">
+                <legend>Chances</legend>
+                <div class="table" id="chances">
+                  <div class="tr">
+                    <div class="td">
+                      <label for="sldWord">Change Word:</label>
+                    </div>
+                    <div class="td">
+                      <input id="sldWord" type="range" min="10" max="100" step="1" value="60" />
+                    </div>
+                    <div class="td">
+                      <span id="sldWordVal"></span>
+                    </div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">
+                      <label for="sldChar">Shuffle Letter:</label>
+                    </div>
+                    <div class="td">
+                      <input id="sldChar" type="range" min="0" max="100" step="1" value="5" />
+                    </div>
+                    <div class="td">
+                      <span id="sldCharVal"></span>
+                    </div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">
+                      <label for="sldFlip">Flip Letter:</label>
+                    </div>
+                    <div class="td">
+                      <input id="sldFlip" type="range" min="0" max="100" step="1" value="5" />
+                    </div>
+                    <div class="td">
+                      <span id="sldFlipVal"></span>
+                    </div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">
+                      <label for="sldSim">Similiar Letter:</label>
+                    </div>
+                    <div class="td">
+                      <input id="sldSim" type="range" min="0" max="100" step="1" value="20" />
+                    </div>
+                    <div class="td">
+                      <span id="sldSimVal"></span>
+                    </div>
+                  </div>
+                  <div class="tr">
+                    <div class="td">
+                      <label for="sldTimer">Timer:</label>
+                    </div>
+                    <div class="td">
+                      <input id="sldTimer" type="range" min="0" max="20" step="1" value="19" />
+                    </div>
+                    <div class="td">
+                      <span id="sldTimerVal"></span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div id="demotext">
+          <h3>Exercise</h3>
+          <p>Attempt to read this famous speech out loud.</p>
+          <h4 class="rcd">Gettysburg Address</h4>
+          <p class="rcd">Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</p>
+          <p class="rcd">Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.</p>
+          <p class="rcd">But, in a larger sense, we can not dedicate; we can not consecrate; we can not hallow; this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us; that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion; that we here highly resolve that these dead shall not have died in vain; that this nation, under God, shall have a new birth of freedom; and that government of the people, by the people, for the people, shall not perish from the earth.</p>
+        <h3 class="rcd">Research at Cambridge University</h3>
+          <p class="rcd">According to a researcher at Cambridge University, it doesn't matter in what order the letters in a word are, the only important thing is that the first and last letter be at the right place. The rest can be a total mess and you can still read it without problem. This is because the human mind does not read every letter by itself but the word as a whole.</p>
+        <span class="rcd">Read more about this research at</span> <a class="rcd" href="https://www.mrc-cbu.cam.ac.uk/people/matt.davis/cmabridge/">University of Cambridge, MRC Cognition and Brain Sciences Unit, Matt Davis</a>
+        
+        </div>
+      </div>
+</body>
+<script>
+    var rcd = {}; // Will hold original text
+var timer;
+var lastTimer;
+
+// Event Listeners        
+var btnScramble = document.getElementById("btnScramble");
+var btnReset = document.getElementById("btnReset");
+var sldTimer = document.getElementById("sldTimer");
+btnScramble.addEventListener("click", doScramble);
+btnReset.addEventListener("click", doReset);
+btnPlay.addEventListener("click", doPlay);
+btnStop.addEventListener("click", doPlay);
+btnShowSettings.addEventListener("click", doSettings);
+btnHideSettings.addEventListener("click", doSettings);
+sldTimer.addEventListener("input", doTimer);
+sldWord.addEventListener("input", doWord);
+sldChar.addEventListener("input", doChar);
+sldFlip.addEventListener("input", doFlip);
+sldSim.addEventListener("input", doSim);
+
+// Init
+getRCD();  // Grab default versions of demo blocks
+doWord();  // Init Word slider value display
+doChar();  // Init Char\Letter slider value display
+doFlip();  // Init Flip slider value display
+doSim();   // Init Simular letter substitution
+doTimer(); // Start processing scramble timer
+
+// Main Timer and event handeler
+function doTimer(obj) {
+  var sldVal = elVal("sldTimer");
+  var sldTimerVal =  document.getElementById("sldTimerVal");
+  clearTimeout(timer);
+  if (sldVal > 0) {
+    var changed = (typeof obj != 'undefined');
+    if (!changed) doScramble();
+    var sldStop = 500;
+    var timeout = (10000+sldStop)-(sldVal*sldStop);
+    // Update value display
+    sldTimerVal.innerHTML = parseFloat(timeout/1000).toFixed(1) + " secs";
+    // Transport Controls
+    document.getElementById("btnPlay").className = "hidden";
+    document.getElementById("btnStop").className = "";
+    // Start next Timeout
+    timer = setTimeout(doTimer, timeout);
+  } else {
+    sldTimerVal.innerHTML = "Off";
+    // Transport Controls
+    document.getElementById("btnStop").className = "hidden";
+    document.getElementById("btnPlay").className = "";
+  }
+}
+function doScramble() {
+  doReset();
+  var elms = document.getElementsByClassName("rcd");
+  for (i = 0; i < elms.length; i++) {
+    elms[i].innerHTML = scrambleBlock(rcd[i]);
+  }
+}
+function getRCD() {
+  var elms = document.getElementsByClassName("rcd");
+  for (i = 0; i < elms.length; i++) {
+    rcd[i] = elms[i].innerHTML;
+  }
+}
+function doReset() {
+  var elms = document.getElementsByClassName("rcd");
+  for (i = 0; i < elms.length; i++) {
+    elms[i].innerHTML = rcd[i];
+  }
+}
+// Slider event handlers
+function doWord() { doSliderVal("sldWordVal","sldWord"); }
+function doChar() { doSliderVal("sldCharVal","sldChar"); }
+function doFlip() { doSliderVal("sldFlipVal","sldFlip"); }
+function doSim()  { doSliderVal("sldSimVal", "sldSim" ); }
+function doSliderVal(valbox, slider) {
+  document.getElementById(valbox).innerHTML = elVal(slider) + "%";
+}
+// Button event handlers
+function doPlay(e) {
+  var t = e.srcElement;
+  if (e.srcElement.id === "btnPlay") {
+    document.getElementById("sldTimer").value = lastTimer;
+
+  } else if (e.srcElement.id === "btnStop") {
+    lastTimer = elVal("sldTimer");
+    document.getElementById("sldTimer").value = 0;
+
+  }
+  doTimer();
+}
+function doSettings(e) {
+  if (e.srcElement.id === "btnShowSettings") {
+    document.getElementById("settings").className = "";
+    document.getElementById("btnShowSettings").className = "hidden";
+    document.getElementById("btnHideSettings").className = "";
+  } else if (e.srcElement.id === "btnHideSettings") {
+    document.getElementById("settings").className = "hidden";
+    document.getElementById("btnHideSettings").className = "hidden";
+    document.getElementById("btnShowSettings").className = "";    
+  }
+}
+function initButtons() {
+   matchWidths("btnPlay", "btnStop");
+
+}
+// Worker Functions
+function scrambleBlock(text) {
+  var words = text.split(' ');
+  var sldVal = elVal("sldWord");
+  for (var i = 0; i < words.length; i++) {
+    if (words[i].length > 3 && chance(sldVal,0,100)) {
+      words[i] = scrambleWordMid(words[i]);
+    }
+    if (chance(sldVal,0,100)) {
+      words[i] = flipCharsInWord(words[i]);
+    }
+  }
+  return words.join(' ');
+} // Scrambles each word in a block of text
+function scrambleWordMid(word) {
+  return word.charAt(0) + scrambleWord(word.substring(1, word.length-1)) + word.charAt(word.length-1);
+} // Leaves the first and last letter and scrambles the middle ones
+function scrambleWord(word) {
+  var chars = word.split('');
+  for (var i = 0; i < word.length-1; i++) {
+    var code = chars[i].charCodeAt(0);
+    if ((code > 47 && code < 58) || // numberic (0-9)
+        (code > 64 && code < 91) || // upper alpha (A-Z)
+        (code > 96 && code < 123)   // lower alpha (a-z)
+      ) {
+      if (chance(elVal("sldSim"),0,100)) { // Substitution
+        if      (chars[i] === "a" || chars[i] === "e") { (chars[i] === "a") ? chars[i] = "e" : chars[i] = "a"; } // 'a' <=> 'e'
+        else if (chars[i] === "i" || chars[i] === "l") { (chars[i] === "i") ? chars[i] = "l" : chars[i] = "i"; } // 'i' <=> 'l'
+        else if (chars[i] === "n" || chars[i] === "z") { (chars[i] === "n") ? chars[i] = "z" : chars[i] = "n"; } // 'n' <=> 'z'
+        else if (chars[i] === "b" || chars[i] === "d"  || chars[i] === "p" || chars[i] === "q") { // 'b' or 'd' or 'p' or 'q'
+          var v = ['b', 'd', 'p', 'q'];
+          var r = Math.floor(Math.random() * 4);
+          chars[i] = v[r];
+        }
+        //elseif (code === ) { char[i] = ""; } // ''
+      }
+      if (chance(elVal("sldChar"),0,100)) { // Shuffle
+        var ri = Math.floor(Math.random() * (word.length-i+1));  // Random forward index
+        // swap
+        var h = chars[i];
+        chars[i] = chars[ri];
+        chars[ri] = h;
+      }
+    }
+  }
+  return chars.join('');
+} // Scrambles all letters in a word
+function flipCharsInWord(word) {
+  var sldVal = elVal("sldFlip");
+  var result = "";
+  for (var i = 0; i < word.length; i++) {
+    var char = word.charAt(i);
+    var css = "";
+    if (chance(sldVal,0,100)) {
+      css = "fliph";
+    } 
+    result += span(char, css);
+  }
+  return span(result, "ib");
+}
+function chance(seed, min, max) {
+  var comp = Math.random() * (max - min) + min;
+  return (comp < seed);
+}
+function elVal(element) {
+  var el = document.getElementById(element);
+  return parseInt(el.value);
+}
+function span(inner, css) {
+  return '<span class="' + css + '">' + inner + '</span>';
+}
+
+</script>
+</html>
